@@ -28,7 +28,14 @@ type StaticProps = {
   notices: Notice[]
 }
 
+/**
+ * データ付きのHTMLを事前に生成しておく
+ * @param param
+ * @returns
+ */
 const Ssg: NextPage<StaticProps> = ({ tasks, notices }) => {
+  const router = useRouter()
+
   return (
     <Layout title="SSG">
       <p className="mb-3 text-blue-500">SSG</p>
@@ -51,6 +58,12 @@ const Ssg: NextPage<StaticProps> = ({ tasks, notices }) => {
           )
         })}
       </ul>
+      <Link href="/ssr" prefetch={false}>
+        <a className="mb-3 text-xs">Link to ssr</a>
+      </Link>
+      <button className="mb-3 text-xs" onClick={() => router.push('/ssr')}>
+        Rounte to ssr
+      </button>
     </Layout>
   )
 }
