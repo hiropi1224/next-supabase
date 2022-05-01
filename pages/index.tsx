@@ -27,7 +27,7 @@ const Auth: NextPage = () => {
   }
   return (
     <Layout title="Auth">
-      <ShieldCheckIcon className="mb-6 h-12 w-12 text-blue-500" />
+      <ShieldCheckIcon className="mb-6 h-12 w-12 text-pink-500" />
       <form onSubmit={handleSubmit}>
         <div>
           <input
