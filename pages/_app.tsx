@@ -1,33 +1,9 @@
 import '../styles/globals.css'
-import type { AppProps, NextWebVitalsMetric } from 'next/app'
+import type { AppProps } from 'next/app'
 import { useEffect } from 'react'
 import { useRouter } from 'next/router'
 import { QueryClient, QueryClientProvider } from 'react-query'
-import { ReactQueryDevtools } from 'react-query/devtools'
 import { supabase } from '../utils/supabase'
-
-export function reportWebVitals(metric: NextWebVitalsMetric) {
-  switch (metric.name) {
-    case 'FCP':
-      console.log(`FCP: ${Math.round(metric.value * 10) / 10}`)
-      break
-    case 'LCP':
-      console.log(`LCP: ${Math.round(metric.value * 10) / 10}`)
-      break
-    case 'TTFB':
-      console.log(`TTFB: ${Math.round(metric.value * 10) / 10}`)
-      break
-    case 'Next.js-hydration':
-      console.log(
-        `Hydration: ${Math.round(metric.startTime * 10) / 10} -> ${
-          Math.round((metric.startTime + metric.value) * 10) / 10
-        }`
-      )
-      break
-    default:
-      break
-  }
-}
 
 // react-query用のクライアント
 const queryClient = new QueryClient({
@@ -47,7 +23,7 @@ function MyApp({ Component, pageProps }: AppProps) {
     // 現在のログインユーザー取得
     const user = supabase.auth.user()
     if (user && pathname === '/') {
-      push('/dashboard')
+      push('/notes')
     } else if (!user && pathname !== '/') {
       await push('/')
     }
@@ -56,7 +32,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   // ユーザーのセッション変化を検知してページ遷移を行う
   supabase.auth.onAuthStateChange((event, _) => {
     if (event === 'SIGNED_IN' && pathname === '/') {
-      push('/dashboard')
+      push('/notes')
     }
     if (event === 'SIGNED_OUT') {
       push('/')
@@ -70,7 +46,6 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <QueryClientProvider client={queryClient}>
       <Component {...pageProps} />
-      <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
   )
 }
