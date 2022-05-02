@@ -1,7 +1,7 @@
 import { useMutation } from 'react-query'
 import { supabase } from '../utils/supabase'
 import useStore from '../store'
-import { revalidateList, revalidateSingle } from '../utils/revalidation'
+import { revalidateSingle } from '../utils/revalidation'
 import { Note, EditedNote } from '../types/types'
 
 export const useMutateNote = () => {
