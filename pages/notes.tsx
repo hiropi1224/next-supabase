@@ -3,6 +3,8 @@ import { LogoutIcon, DocumentTextIcon } from '@heroicons/react/solid'
 import { GetStaticProps } from 'next'
 import { supabase } from '../utils/supabase'
 import { Layout } from '../components/Layout'
+import { NoteForm } from '../components/NoteForm'
+import { NoteItem } from '../components/NoteItem'
 import { Note } from '../types/types'
 
 export const getStaticProps: GetStaticProps = async () => {
@@ -19,16 +21,13 @@ export const getStaticProps: GetStaticProps = async () => {
     revalidate: false,
   }
 }
-
 type StaticProps = {
   notes: Note[]
 }
-
 const Notes: NextPage<StaticProps> = ({ notes }) => {
   const signOut = () => {
     supabase.auth.signOut()
   }
-
   return (
     <Layout title="Notes">
       <LogoutIcon
@@ -36,6 +35,18 @@ const Notes: NextPage<StaticProps> = ({ notes }) => {
         onClick={signOut}
       />
       <DocumentTextIcon className="h-8 w-8 text-blue-500" />
+      <ul className="my-2">
+        {notes.map((note) => (
+          <NoteItem
+            key={note.id}
+            id={note.id}
+            title={note.title}
+            content={note.content}
+            user_id={note.user_id}
+          />
+        ))}
+      </ul>
+      <NoteForm />
     </Layout>
   )
 }
